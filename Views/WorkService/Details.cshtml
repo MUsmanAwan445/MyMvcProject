@@ -1,0 +1,107 @@
+@model MyMvcProject.Models.WorkServiceFormViewModel
+
+@{
+    ViewData["Title"] = "Form Details";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <!-- Header Section -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2>Form Details</h2>
+                    <p class="text-muted mb-0">Viewing complete record for Reference No: <span class="fw-bold text-dark">@Model.RefNo</span></p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a asp-action="List" class="btn btn-secondary px-4 py-2 shadow-sm rounded-pill">
+                        <i class="bi bi-arrow-left me-1"></i> Back to List
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary px-4 py-2 shadow-sm rounded-pill">
+                        <i class="bi bi-pencil-fill me-1"></i> Edit Record
+                    </a>
+                </div>
+            </div>
+
+            <!-- Details Card -->
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <!-- Profile Picture Section (Agar mojood ho) -->
+                    @if (!string.IsNullOrEmpty(Model.ProfilePicPath))
+                    {
+                        <div class="text-center mb-4 pb-3 border-bottom">
+                            <img src="@Model.ProfilePicPath" alt="Profile Image" class="rounded-circle shadow-sm border" width="120" height="120" style="object-fit:cover;" />
+                        </div>
+                    }
+
+                    <div class="row g-4">
+                        <!-- Column 1 -->
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <h5 class="text-primary border-bottom pb-2 mb-3">General Information</h5>
+                                
+                                <p class="mb-2"><strong>ID:</strong> @Model.Id</p>
+                                <p class="mb-2"><strong>Reference No:</strong> @Model.RefNo</p>
+                                <p class="mb-2"><strong>Recorded By:</strong> @Model.RecordedBy</p>
+                                <p class="mb-2"><strong>Officer Incharge:</strong> @Model.OfficerIncharge</p>
+                                <p class="mb-2"><strong>Name Tasked:</strong> @Model.NameTasked</p>
+                                <p class="mb-2"><strong>Designation:</strong> @Model.Designation</p>
+                                <p class="mb-2"><strong>Estimated Cost:</strong> <span class="text-success fw-bold">@Model.EstimatedCost</span></p>
+                                <p class="mb-0"><strong>Details Attached At:</strong> @Model.DetailsAttachedAt</p>
+                            </div>
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <h5 class="text-primary border-bottom pb-2 mb-3">Verification & Sanction</h5>
+                                
+                                <p class="mb-2"><strong>Verified By Officer:</strong> @Model.VerifiedByOfficer</p>
+                                <p class="mb-2">
+                                    <strong>Store Status:</strong> 
+                                    @if(Model.StoreStatus == "Available")
+                                    {
+                                        <span class="badge bg-success">@Model.StoreStatus</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">@Model.StoreStatus</span>
+                                    }
+                                </p>
+                                <p class="mb-2"><strong>Recommendation:</strong> @Model.Recommendation</p>
+                                <p class="mb-2"><strong>Sanction Type:</strong> <span class="text-primary fw-bold">@Model.SanctionType</span></p>
+                                <p class="mb-0"><strong>Technical Sanction Dir (W&S):</strong> @Model.TechnicalSanctionDir</p>
+                            </div>
+                        </div>
+
+                        <!-- Column 3 -->
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <h5 class="text-primary border-bottom pb-2 mb-3">Execution & Staff</h5>
+                                
+                                <p class="mb-2"><strong>Execution Officer Incharge:</strong> @Model.ExecutionOfficerIncharge</p>
+                                <p class="mb-2"><strong>Execution Officer Designation:</strong> @Model.ExecutionOfficerDesignation</p>
+                                <p class="mb-2"><strong>Deployed Staff:</strong> @Model.DeployedStaff</p>
+                                <p class="mb-2"><strong>Deployed Staff Designation:</strong> @Model.DeployedStaffDesignation</p>
+                                <p class="mb-0"><strong>Recoupment Dir (W&S):</strong> @Model.RecoupmentDirWS</p>
+                            </div>
+                        </div>
+
+                        <!-- Column 4 -->
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <h5 class="text-primary border-bottom pb-2 mb-3">Submission Details</h5>
+                                
+                                <p class="mb-2"><strong>Submitted At:</strong> @Model.SubmittedAt.ToString("dd-MMM-yyyy")</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+@model IEnumerable<MyMvcProject.Models.Designation>
+
+@{
+    // Page ka title set kiya gaya hai
+    ViewData["Title"] = "Manage Designations";
+}
+
+<div class="container my-5" style="max-width: 700px;">
+    
+    <!-- Agar koi Success Message ho to green alert box show karega -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4 rounded-3" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    <!-- Agar koi Error Message ho (jaise pehle se mojood designation) to red alert box show karega -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4 rounded-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Top Header aur Wapis Forms List par jane ka button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Manage Designations</h2>
+        <a asp-action="List" class="btn btn-outline-secondary rounded-pill">
+            <i class="bi bi-arrow-left me-1"></i> Back to Forms List
+        </a>
+    </div>
+
+    <!-- Naya Designation Add karne ka Form Section -->
+    <div class="card shadow-sm border-0 mb-4 rounded-4">
+        <div class="card-body p-4 bg-light rounded-4">
+            <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-plus-circle me-2"></i>Add New Designation</h5>
+            
+            <!-- AddDesignation action ko data post karne ke liye form -->
+            <form asp-action="AddDesignation" method="post" class="d-flex gap-2">
+                @Html.AntiForgeryToken()
+                <input type="text" name="designationName" class="form-control" placeholder="Enter designation name (e.g. Supervisor)..." required />
+                <button type="submit" class="btn btn-primary px-4 fw-bold">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Maujuda Designations ki Table List aur Delete karne ka section -->
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="py-3 ps-4">ID</th>
+                        <th class="py-3">Designation Name</th>
+                        <th class="py-3 text-center pe-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Agar database mein koi designation na ho to ye message show hoga -->
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-muted">No designations found.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <!-- Database ke har designation ko row ki shakal mein dikhana -->
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold">@item.Id</td>
+                                <td>@item.Name</td>
+                                <td class="text-center pe-4">
+                                    <!-- Delete Designation Form with confirmation popup -->
+                                    <form asp-action="DeleteDesignation" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this designation?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger px-3">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
